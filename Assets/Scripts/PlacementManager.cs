@@ -47,7 +47,7 @@ public class PlacementManager : MonoBehaviour
     private DeckComponent chainDeck;   // where the next Node attaches
     private int buildDir = +1;         // +1 = build to right, -1 = build to left
 
-    // ✅ FIX: hard stop once connected to end
+    //  hard stop once connected to end
     private bool bridgeComplete;
 
     // Undo
@@ -126,7 +126,7 @@ public class PlacementManager : MonoBehaviour
             startNode.leftFree = false; // start left is never allowed
             endNode.rightFree = false;  // end right is never allowed
 
-            // ✅ FIX: make sure the "allowed" side is actually usable if unconnected
+            // make sure the "allowed" side is actually usable if unconnected
             if (startNode.rightDeck == null) startNode.rightFree = true;
             if (endNode.leftDeck == null) endNode.leftFree = true;
         }
@@ -149,7 +149,7 @@ public class PlacementManager : MonoBehaviour
     {
         if (!ValidateBasics()) return;
 
-        // ✅ FIX: stop if completed
+        // stop if completed
         if (bridgeComplete || chainNode == endNode)
         {
             Debug.LogWarning("[SpawnDeck] Bridge already complete.");
@@ -258,7 +258,7 @@ public class PlacementManager : MonoBehaviour
     {
         if (!ValidateBasics()) return;
 
-        // ✅ FIX: stop if completed
+        //  stop if completed
         if (bridgeComplete || chainNode == endNode)
         {
             Debug.LogWarning("[SpawnNode] Bridge already complete.");
@@ -279,7 +279,7 @@ public class PlacementManager : MonoBehaviour
         expected.y = chainDeck.transform.position.y;
         expected.z = chainDeck.transform.position.z;
 
-        // ✅ FIX: connect to End if the next step would REACH or PASS the End within one step
+        //  connect to End if the next step would REACH or PASS the End within one step
         float eps = 0.05f * config.unit;
         if (CanConnectToEnd(expected, dx, eps))
         {
@@ -364,7 +364,7 @@ public class PlacementManager : MonoBehaviour
         });
     }
 
-    // ✅ FIX: robust End connection (doesn't require exact X equality)
+    // robust End connection (doesn't require exact X equality)
     bool CanConnectToEnd(Vector3 expectedNodePos, float stepDx, float eps)
     {
         if (!endNode) return false;
@@ -391,7 +391,7 @@ public class PlacementManager : MonoBehaviour
         return false;
     }
 
-    // ✅ FIX: after connecting, HARD STOP further build
+    // after connecting, HARD STOP further build
     void ConnectDeckToEnd(float stepDx, float eps)
     {
         if (!chainDeck) return;
@@ -752,7 +752,7 @@ public class PlacementManager : MonoBehaviour
         public Action<bool> set;
     }
 
-    // ✅ FIX: world-space line renderer + clamped thickness
+    //  world-space line renderer + clamped thickness
     GameObject SpawnCable(Vector3 a, Vector3 b)
     {
         var go = Instantiate(cablePrefab, transform);
@@ -820,7 +820,7 @@ public class PlacementManager : MonoBehaviour
         return bestTower;
     }
 
-    // ✅ FIX: get "true" corner positions from renderer bounds (not from corner Transforms)
+    //  get "true" corner positions from renderer bounds (not from corner Transforms)
     bool TryGetBoundsCorner(GameObject root, CornerId id, bool top, out Vector3 pos)
     {
         pos = default;
@@ -857,14 +857,14 @@ public class PlacementManager : MonoBehaviour
         // prevent duplicates
         if (!dCorner.get() || !tCorner.get()) return;
 
-        // ✅ FIX: use bounds for accurate physical corners
+        //  use bounds for accurate physical corners
         if (!TryGetBoundsCorner(tower.gameObject, towerCornerId, top: true, out Vector3 towerTopCorner))
             towerTopCorner = tCorner.pos;
 
         if (!TryGetBoundsCorner(deck.gameObject, deckCornerId, top: true, out Vector3 deckTopCorner))
             deckTopCorner = dCorner.pos;
 
-        // ✅ FIX: tower bottom Y from bounds (not lossyScale)
+        //  tower bottom Y from bounds (not lossyScale)
         float towerBottomY = towerTopCorner.y;
         {
             var tr = tower.GetComponentInChildren<Renderer>();
