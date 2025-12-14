@@ -820,7 +820,7 @@ public class PlacementManager : MonoBehaviour
         return bestTower;
     }
 
-    //  get "true" corner positions from renderer bounds (not from corner Transforms)
+    //  get "true" corner positions from renderer bounds 
     bool TryGetBoundsCorner(GameObject root, CornerId id, bool top, out Vector3 pos)
     {
         pos = default;
@@ -875,7 +875,7 @@ public class PlacementManager : MonoBehaviour
         Vector3 start = towerTopCorner;
         Vector3 end = deckTopCorner;
 
-        // Your slope rule:
+        // slope rule:
         // - deck end point is at tower bottom Y
         // - same Z lane as the tower corner
         end.y = towerBottomY;
@@ -1073,7 +1073,7 @@ public class PlacementManager : MonoBehaviour
 
         Debug.Log("Crossed successfully!");
 
-        // Optional: restore camera after finishing
+        // restore camera after finishing
         if (runnerPOV && cam)
         {
             cam.transform.position = camOriginalPos;
